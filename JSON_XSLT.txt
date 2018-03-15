@@ -48,7 +48,6 @@ if(<xsl:value-of select="condicion"/>)
 
 <xsl:template match="funcion">
   return <xsl:value-of select="@nbfuncion"/>;
-  <xsl:apply-templates select="decision"/>
 </xsl:template>
 
 <xsl:template match="falso">
