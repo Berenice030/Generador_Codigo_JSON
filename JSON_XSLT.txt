@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:template match="//ontologia">
+  <xsl:apply-templates/>
+</xsl:template>
+
+<xsl:template match="ideal">
+  var text='{<xsl:apply-templates select="atributos"/>
+  <xsl:apply-templates select="metodos"/>}';<br/>
+  <xsl:apply-templates select="asignacion"/>
+</xsl:template>
+
+<xsl:template match="atributos"> 
+  <xsl:apply-templates select="atributo"/>
+</xsl:template>
+
+<xsl:template match="atributo"> 
+  "<xsl:value-of select="@nbatributo"/>":"<xsl:value-of select="@tipo"/>",
+</xsl:template>
+
+<xsl:template match="metodos">
+ <xsl:apply-templates select="metodo"/>
+</xsl:template>
+
+<xsl:template match="metodo">
+  "<xsl:value-of select="@nbmetodo"/>":"function(){
+  <xsl:apply-templates select="asignacion"/>
+  <xsl:apply-templates select="decision"/>
+ }"
+</xsl:template>
+
+<xsl:template match="asignacion">
+  <xsl:value-of select="variable"/>=
+  <xsl:value-of select="operando"/>;
+</xsl:template>
+
+<xsl:template match="decision">
+if(<xsl:value-of select="condicion"/>)
+  <xsl:apply-templates select="verdadero"/>
+  <xsl:apply-templates select="falso"/>
+</xsl:template>
+
+<xsl:template match="verdadero">
+  {<xsl:apply-templates select="funcion"/> }
+</xsl:template>
+
+<xsl:template match="funcion">
+  return <xsl:value-of select="@nbfuncion"/>;
+  <xsl:apply-templates select="decision"/>
+</xsl:template>
+
+<xsl:template match="falso">
+ else{ <xsl:apply-templates select="decision"/> }
+</xsl:template>
+
+<xsl:template match="datos"> 
+  <xsl:apply-templates select="dato"/>
+</xsl:template>
+
+<xsl:template match="dato"> <br/>
+var <xsl:value-of select="@nbdato"/>='<xsl:apply-templates select="asignacion"/>';
+</xsl:template>
+
+<xsl:template match="objeto"> <br/> <br/>
+ var obj = JSON.parse(text);<br/>
+ obj.<xsl:value-of select="@nbobjeto"/>= eval("(" + obj.<xsl:value-of select="@nbobjeto"/> +")");<br/>
+ document.getElementById("demo").innerHTML = obj.<xsl:value-of select="@nbobjeto"/>();
+</xsl:template>
+
+</xsl:stylesheet>
