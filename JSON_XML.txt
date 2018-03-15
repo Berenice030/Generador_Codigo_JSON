@@ -154,7 +154,7 @@
                                     	</asignacion>
 				</dato>
 			</datos>
-			<objeto nbobjeto="calcular_isan"> </objeto>
+			<objeto nbobjeto="calcular_isan">  </objeto>
 		</ontologia>
 	</usuario>
 </xloco>
